@@ -95,44 +95,7 @@ public class Controller {
 				}
 				break;
 
-			case 3:
-				
-				int minimo;
-				int maximo;
-				try
-				{
-					System.out.println("--------- \nDar MOVEMENT ID mínimo a buscar: ");
-					minimo = lector.nextInt();
-					System.out.println("--------- \nDar MOVEMENT ID máximo a buscar: ");
-					maximo = lector.nextInt();
-				}
-				catch(InputMismatchException e)
-				{
-					System.out.println("Debe ingresar valores numéricos\n---------");
-					break;
-				}
-
-				Queue<ZonaUBER> zonas = modelo.consultarZonasRango(minimo, maximo);
-
-				if (zonas == null)
-				{
-					System.out.println("No hay ninguna zona en el rango de MOVEMENT ID ingresado.\n---------");
-				}
-				else
-				{
-					System.out.println("--------- \nDatos de las zonas: \n");
-					int contador = 1;
-					while(zonas.hasNext())
-					{
-						System.out.println("--------- \nDato " + contador + ":\n");
-						contador++;
-						ZonaUBER actual = zonas.next();
-						System.out.println("MOVEMENT ID: " + actual.darMID() + "\nNombre: " + actual.darScanombre() + "\nPerímetro: " + (actual.darShape_leng()*100) + " kilómetros\nÁrea: " + (actual.darShape_area()*10000) + " kilómetros cuadrados\nNúmero de puntos: " + actual.darCoordinates().darNumeroElementos() + "\n---------");
-					}
-				}
-				break;
-
-			case 4: 
+			case 3: 
 				System.out.println("--------- \n Hasta pronto !! \n---------"); 
 				lector.close();
 				fin = true;

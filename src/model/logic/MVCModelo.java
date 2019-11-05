@@ -19,7 +19,6 @@ public class MVCModelo{
 	 */
 	private RedBlackBST<Integer, ZonaUBER> zonas;
 
-
 	/**
 	 * Constructor del modelo del mundo
 	 */
@@ -67,39 +66,4 @@ public class MVCModelo{
 	//
 	//METODOS
 	//
-	/**
-	 * Retorna el número de elementos en el modelo
-	 * @return numero de elementos presentes en el modelo
-	 */
-	public int darTamanoZonas()
-	{
-		return zonas.size();
-	}
-
-	public int darMinID() throws NumberFormatException, Exception
-	{
-		return zonas.min();
-	}
-
-	public int darMaxID() throws NumberFormatException, Exception
-	{
-		return zonas.max();
-	}
-
-	public ZonaUBER consultarZonaPorID(int p)
-	{
-		return zonas.get(p);
-	}
-
-	public Queue consultarZonasRango(int min, int max)
-	{		
-		if(zonas.get(min)!= null && zonas.get(max) != null )
-		{
-			return (Queue) zonas.valuesInRange(min, max);
-		}
-		else
-		{
-			return null;
-		}
-	}	
 }
