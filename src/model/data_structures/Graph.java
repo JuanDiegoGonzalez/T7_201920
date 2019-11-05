@@ -100,6 +100,7 @@ public class Graph<K,V> implements IGraph<K, V>
         E++;
         adj[v].add(w);
         adj[w].add(v);
+		System.out.println(v);
     }
 
     /**
@@ -158,7 +159,7 @@ public class Graph<K,V> implements IGraph<K, V>
 	@Override
 	public void addVertex(K idVertex, V infoVertex) {
 		// TODO Auto-generated method stub
-		
+		System.out.println(idVertex);
 	}
 
 	@Override

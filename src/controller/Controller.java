@@ -3,10 +3,7 @@ package controller;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import model.data_structures.Node;
-import model.data_structures.Queue;
 import model.logic.MVCModelo;
-import model.logic.ZonaUBER;
 import view.MVCView;
 
 public class Controller {
@@ -55,16 +52,18 @@ public class Controller {
 			switch(option){
 			case 1:
 
-				modelo.cargarGrafo();
-				System.out.println("Archivos cargados");
-
 				try
 				{
-					System.out.println("Cantidad de vertices cargados: " + modelo.darMinID());
-					System.out.println("Cantidad de arcos cargados: " + modelo.darMaxID()  + "\n---------");
+					modelo.cargarGrafo();
+					System.out.println("Grafo cargado");
+					System.out.println("Cantidad de vertices cargados: " + modelo.darNumeroVertices());
+					System.out.println("Cantidad de arcos cargados: " + modelo.darNumeroArcos() + "\n---------");
 				}
 				catch(Exception e)
-				{}
+				{					
+					System.out.println("Se produjo un error al cargar el grafo.");
+					e.printStackTrace();
+				}
 
 				break;
 
@@ -72,7 +71,7 @@ public class Controller {
 
 				try
 				{
-					modelo.x();
+					//modelo.x();
 					System.out.println("El grafo se guardó en formato JSON\n---------");
 				}
 				catch (Exception e)
@@ -82,47 +81,26 @@ public class Controller {
 
 			case 3:
 
-				ZonaUBER zona = modelo.consultarZonaPorID(MID);
-				if (zona == null)
-				{
-					System.out.println("No hay una zona con el MOVEMENT ID ingresado.\n---------");
-				}
-				else
-				{
-					System.out.println("--------- \nDatos de la zona: \n");
+				//ZonaUBER zona = modelo.consultarZonaPorID(MID);
 
-					System.out.println("Nombre: " + zona.darScanombre() + "\nPerímetro: " + (zona.darShape_leng()*100) + " kilómetros\nÁrea: " + (zona.darShape_area()*10000) + " kilómetros cuadrados\nNúmero de puntos: " + zona.darCoordinates().darNumeroElementos() + "\n---------");
-				}
+				//	System.out.println("Nombre: " + zona.darScanombre() + "\nPerímetro: " + (zona.darShape_leng()*100) + " kilómetros\nÁrea: " + (zona.darShape_area()*10000) + " kilómetros cuadrados\nNúmero de puntos: " + zona.darCoordinates().darNumeroElementos() + "\n---------");
+
 				break;
 
 			case 4:
 
-				ZonaUBER zona = modelo.consultarZonaPorID(MID);
-				if (zona == null)
-				{
-					System.out.println("No hay una zona con el MOVEMENT ID ingresado.\n---------");
-				}
-				else
-				{
-					System.out.println("--------- \nDatos de la zona: \n");
+				//ZonaUBER zona = modelo.consultarZonaPorID(MID);
 
-					System.out.println("Nombre: " + zona.darScanombre() + "\nPerímetro: " + (zona.darShape_leng()*100) + " kilómetros\nÁrea: " + (zona.darShape_area()*10000) + " kilómetros cuadrados\nNúmero de puntos: " + zona.darCoordinates().darNumeroElementos() + "\n---------");
-				}
+				//	System.out.println("Nombre: " + zona.darScanombre() + "\nPerímetro: " + (zona.darShape_leng()*100) + " kilómetros\nÁrea: " + (zona.darShape_area()*10000) + " kilómetros cuadrados\nNúmero de puntos: " + zona.darCoordinates().darNumeroElementos() + "\n---------");
+
 				break;
 
 			case 5:
 
-				ZonaUBER zona = modelo.consultarZonaPorID(MID);
-				if (zona == null)
-				{
-					System.out.println("No hay una zona con el MOVEMENT ID ingresado.\n---------");
-				}
-				else
-				{
-					System.out.println("--------- \nDatos de la zona: \n");
+				//ZonaUBER zona = modelo.consultarZonaPorID(MID);
 
-					System.out.println("Nombre: " + zona.darScanombre() + "\nPerímetro: " + (zona.darShape_leng()*100) + " kilómetros\nÁrea: " + (zona.darShape_area()*10000) + " kilómetros cuadrados\nNúmero de puntos: " + zona.darCoordinates().darNumeroElementos() + "\n---------");
-				}
+				//	System.out.println("Nombre: " + zona.darScanombre() + "\nPerímetro: " + (zona.darShape_leng()*100) + " kilómetros\nÁrea: " + (zona.darShape_area()*10000) + " kilómetros cuadrados\nNúmero de puntos: " + zona.darCoordinates().darNumeroElementos() + "\n---------");
+
 				break;
 
 			case 6: 

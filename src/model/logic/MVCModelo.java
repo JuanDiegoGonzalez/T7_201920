@@ -1,13 +1,15 @@
 package model.logic;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import model.data_structures.Queue;
-import model.data_structures.RedBlackBST;
+import model.data_structures.Graph;
 
 /**
  * Definicion del modelo del mundo
@@ -17,53 +19,65 @@ public class MVCModelo{
 	/**
 	 * Atributos del modelo del mundo
 	 */
-	private RedBlackBST<Integer, ZonaUBER> zonas;
+	private Graph<Integer, Vertice> grafo;
 
 	/**
 	 * Constructor del modelo del mundo
 	 */
 	public MVCModelo()
 	{
-		zonas = new RedBlackBST<>();
+		grafo = new Graph<>(0);
 	}
 
-	public void cargarGrafo()
+	public void cargarGrafo() throws Exception
 	{
-		JSONParser jsonParser = new JSONParser();
+		BufferedReader br = new BufferedReader(new FileReader(new File("data/bogota_vertices.txt")));
+		String linea = br.readLine();
+		linea = br.readLine();
 
-		try (FileReader reader = new FileReader("data/bogota_cadastral.json"))
+		while(linea != null)
 		{
-			Object obj = jsonParser.parse(reader);
-
-			JSONObject archivo = (JSONObject) obj;
-			JSONArray array = (JSONArray) archivo.get("features");
-
-			for(int i = 0; i < array.size(); i++)
+			String[] datos = linea.split(";");
+			
+			if(!datos.equals(""))
 			{
-				JSONObject actual = (JSONObject) array.get(i);
+				Vertice nuevo = new Vertice(Integer.parseInt(datos[0]), Double.parseDouble(datos[1]), Double.parseDouble(datos[2]), Integer.parseInt(datos[3]));
 
-				JSONObject geometry = (JSONObject) actual.get("geometry");
-				Object[] coordinates1 = ((JSONArray) (((JSONArray) ((Object[]) (((JSONArray) geometry.get("coordinates")).toArray()))[0]).toArray())[0]).toArray();
-
-				Queue<double[]> coordenadas = new Queue<>();
-
-				for(int j = 0; j < coordinates1.length; j++)
-				{
-					double[] act = {(Double) ((JSONArray) coordinates1[j]).toArray()[0], (Double) ((JSONArray) coordinates1[j]).toArray()[1]};
-					coordenadas.enqueue(act);
-				}				
-
-				JSONObject properties = (JSONObject) actual.get("properties");
-
-				ZonaUBER nuevo = new ZonaUBER((String)geometry.get("type"), coordenadas, ((Long)properties.get("cartodb_id")).intValue(), (String)properties.get("scacodigo"), ((Long)properties.get("scatipo")).intValue(), (String)properties.get("scanombre"), (double)properties.get("shape_leng"), (double)properties.get("shape_area"), Integer.parseInt((String)properties.get("MOVEMENT_ID")), (String)properties.get("DISPLAY_NAME"));
-				zonas.put(nuevo.darMID(), nuevo);
+				grafo.addVertex(Integer.parseInt(datos[0]), nuevo);
 			}
+			
+			linea = br.readLine();
 		}
-		catch (Exception e)
-		{e.printStackTrace();}
+		br.close();
+
+		br = new BufferedReader(new FileReader(new File("data/bogota_arcos.txt")));
+		linea = br.readLine();
+
+		while(linea != null)
+		{
+			String[] datos = linea.split(" ");
+
+			for (int i = 1; i < datos.length; i++)
+			{
+				grafo.addEdge(Integer.parseInt(datos[0]), Integer.parseInt(datos[i]));
+			}
+
+			linea = br.readLine();
+		}
+		br.close();
 	}
 
 	//
 	//METODOS
 	//
+
+	public int darNumeroVertices()
+	{
+		return grafo.V();
+	}
+
+	public int darNumeroArcos()
+	{
+		return grafo.E();
+	}
 }

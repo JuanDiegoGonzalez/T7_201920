@@ -47,7 +47,6 @@ public class Bag<Item> implements Iterable<Item> {
 
     /**
      * Adds the item to this bag.
-     *
      * @param  item the item to add to this bag
      */
     public void add(Item item) {
@@ -58,10 +57,8 @@ public class Bag<Item> implements Iterable<Item> {
         n++;
     }
 
-
     /**
      * Returns an iterator that iterates over the items in this bag in arbitrary order.
-     *
      * @return an iterator that iterates over the items in this bag in arbitrary order
      */
     public Iterator<Item> iterator()  {
@@ -86,7 +83,4 @@ public class Bag<Item> implements Iterable<Item> {
             return item;
         }
     }
-
-
-
 }
