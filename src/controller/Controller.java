@@ -55,13 +55,13 @@ public class Controller {
 			switch(option){
 			case 1:
 
-				modelo.cargarArchivoZonas();
+				modelo.cargarGrafo();
 				System.out.println("Archivos cargados");
-				System.out.println("Numero actual de zonas: " + modelo.darTamanoZonas());
+
 				try
 				{
-					System.out.println("Valor mínimo de MOVEMENT ID: " + modelo.darMinID());
-					System.out.println("Valor máximo de MOVEMENT ID: " + modelo.darMaxID()  + "\n---------");
+					System.out.println("Cantidad de vertices cargados: " + modelo.darMinID());
+					System.out.println("Cantidad de arcos cargados: " + modelo.darMaxID()  + "\n---------");
 				}
 				catch(Exception e)
 				{}
@@ -70,17 +70,17 @@ public class Controller {
 
 			case 2:
 
-				int MID;
 				try
 				{
-					System.out.println("--------- \nDar MOVEMENT ID a buscar: ");
-					MID = lector.nextInt();
+					modelo.x();
+					System.out.println("El grafo se guardó en formato JSON\n---------");
 				}
-				catch(InputMismatchException e)
+				catch (Exception e)
 				{
-					System.out.println("Debe ingresar valores numéricos\n---------");
-					break;
+					System.out.println("No se pudo persistir el grafo.\n---------");
 				}
+
+			case 3:
 
 				ZonaUBER zona = modelo.consultarZonaPorID(MID);
 				if (zona == null)
@@ -95,7 +95,37 @@ public class Controller {
 				}
 				break;
 
-			case 3: 
+			case 4:
+
+				ZonaUBER zona = modelo.consultarZonaPorID(MID);
+				if (zona == null)
+				{
+					System.out.println("No hay una zona con el MOVEMENT ID ingresado.\n---------");
+				}
+				else
+				{
+					System.out.println("--------- \nDatos de la zona: \n");
+
+					System.out.println("Nombre: " + zona.darScanombre() + "\nPerímetro: " + (zona.darShape_leng()*100) + " kilómetros\nÁrea: " + (zona.darShape_area()*10000) + " kilómetros cuadrados\nNúmero de puntos: " + zona.darCoordinates().darNumeroElementos() + "\n---------");
+				}
+				break;
+
+			case 5:
+
+				ZonaUBER zona = modelo.consultarZonaPorID(MID);
+				if (zona == null)
+				{
+					System.out.println("No hay una zona con el MOVEMENT ID ingresado.\n---------");
+				}
+				else
+				{
+					System.out.println("--------- \nDatos de la zona: \n");
+
+					System.out.println("Nombre: " + zona.darScanombre() + "\nPerímetro: " + (zona.darShape_leng()*100) + " kilómetros\nÁrea: " + (zona.darShape_area()*10000) + " kilómetros cuadrados\nNúmero de puntos: " + zona.darCoordinates().darNumeroElementos() + "\n---------");
+				}
+				break;
+
+			case 6: 
 				System.out.println("--------- \n Hasta pronto !! \n---------"); 
 				lector.close();
 				fin = true;

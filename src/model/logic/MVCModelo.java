@@ -27,7 +27,7 @@ public class MVCModelo{
 		zonas = new RedBlackBST<>();
 	}
 
-	public void cargarArchivoZonas()
+	public void cargarGrafo()
 	{
 		JSONParser jsonParser = new JSONParser();
 
