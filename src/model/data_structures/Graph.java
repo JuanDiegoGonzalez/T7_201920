@@ -13,7 +13,7 @@ public class Graph<K,V> implements IGraph<K, V>
 
 	private final int V;
 	private int E;
-	private boolean[] Marked;
+	public boolean[] Marked;
 	private Bag<Integer>[] adj;
 
 	/**
@@ -144,11 +144,11 @@ public class Graph<K,V> implements IGraph<K, V>
 		// TODO Auto-generated method stub
 
 	}
-
+double a ; 
 	@Override
 	public double getCostArc(K idVertexIni, K idVertexFin) {
 		// TODO Auto-generated method stub
-		return 0;
+		return a;
 	}
 
 	@Override
