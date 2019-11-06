@@ -51,11 +51,28 @@ public class Bag<Item> implements Iterable<Item> {
      */
     public void add(Item item) {
     	
-        Node<Item> oldfirst = first;
-        first = new Node<Item>();
-        first.item = item;
-        first.next = oldfirst;
+    	if(first == null)
+    	{
+    		first = new Node<Item>();
+    		first.item = item;
+    	}
+    	else
+    	{
+    		Node<Item> current = first;
+    		
+    		while(current.next != null)
+    		{
+    			current = current.next;
+    		}
+    		current.next = new Node<Item>();
+    		current.next.item = item;
+    	}
+    	
         n++;
+    }
+    
+    public void cambiarPrimero(Item item) {
+        first.item = item;
     }
 
     /**

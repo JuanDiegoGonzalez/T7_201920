@@ -26,7 +26,7 @@ public class MVCModelo{
 	 */
 	public MVCModelo()
 	{
-		grafo = new Graph<>(0);
+		grafo = new Graph<>(250000);
 	}
 
 	public void cargarGrafo() throws Exception
