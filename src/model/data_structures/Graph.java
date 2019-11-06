@@ -2,6 +2,9 @@ package model.data_structures;
 
 import java.util.NoSuchElementException;
 
+import model.logic.Arco;
+import model.logic.Vertice;
+
 /** 
  * Implementación tomada de Algorithms 4th edition by Robert Sedgewick and Kevin Wayne (2011)
  * Consultado el 04/11/19
@@ -11,10 +14,11 @@ public class Graph<K,V> implements IGraph<K, V>
 {
 	private static final String NEWLINE = System.getProperty("line.separator");
 
-	private final int V;
+	private int V;
 	private int E;
 	public boolean[] Marked;
-	private Bag<Integer>[] adj;
+	private Bag<V>[] adj;
+	private  ArregloDinamico<Arco> arcos;
 
 	/**
 	 * Initializes an empty graph with {@code V} vertices and 0 edges.
@@ -25,11 +29,12 @@ public class Graph<K,V> implements IGraph<K, V>
 	 */
 	public Graph(int V) {
 		if (V < 0) throw new IllegalArgumentException("Number of vertices must be nonnegative");
+		arcos = new ArregloDinamico<>(1);
 		this.V = V;
 		this.E = 0;
-		adj = (Bag<Integer>[]) new Bag[V];
-		for (int v = 0; v < V; v++) {
-			adj[v] = new Bag<Integer>();
+		adj = new Bag[250000];
+		for (int v = 0; v < 250000; v++) {
+			adj[v] = new Bag<V>();
 		}
 	}
 
@@ -48,9 +53,9 @@ public class Graph<K,V> implements IGraph<K, V>
 		try {
 			this.V = in;
 			if (V < 0) throw new IllegalArgumentException("number of vertices in a Graph must be nonnegative");
-			adj = (Bag<Integer>[]) new Bag[V];
+			adj = (Bag<V>[]) new Bag[V];
 			for (int v = 0; v < V; v++) {
-				adj[v] = new Bag<Integer>();
+				adj[v] = new Bag<V>();
 			}
 			int E = in;
 			if (E < 0) throw new IllegalArgumentException("number of edges in a Graph must be nonnegative");
@@ -59,7 +64,7 @@ public class Graph<K,V> implements IGraph<K, V>
 				int w = in;
 				validateVertex(v);
 				validateVertex(w);
-				addEdge(v, w); 
+				//addEdge(v, w); 
 			}
 		}
 		catch (NoSuchElementException e) {
@@ -85,23 +90,8 @@ public class Graph<K,V> implements IGraph<K, V>
 
 	// throw an IllegalArgumentException unless {@code 0 <= v < V}
 	private void validateVertex(int v) {
-		if (v < 0 || v >= V)
-			throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (V-1));
-	}
-
-	/**
-	 * Adds the undirected edge v-w to this graph.
-	 * @param  v one vertex in the edge
-	 * @param  w the other vertex in the edge
-	 * @throws IllegalArgumentException unless both {@code 0 <= v < V} and {@code 0 <= w < V}
-	 */
-	public void addEdge(int v, int w) {
-		validateVertex(v);
-		validateVertex(w);
-		E++;
-		adj[v].add(w);
-		adj[w].add(v);
-		System.out.println(v);
+		if (v < 0 || v > V)
+			throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (V));
 	}
 
 	/**
@@ -110,7 +100,7 @@ public class Graph<K,V> implements IGraph<K, V>
 	 * @return the vertices adjacent to vertex {@code v}, as an iterable
 	 * @throws IllegalArgumentException unless {@code 0 <= v < V}
 	 */
-	public Iterable<Integer> adj(int v) {
+	public Iterable<V> adj(int v) {
 		validateVertex(v);
 		return adj[v];
 	}
@@ -129,8 +119,25 @@ public class Graph<K,V> implements IGraph<K, V>
 
 	@Override
 	public void addEdge(K idVertexIni, K idVertexFin, double cost) {
-		// TODO Auto-generated method stub
+		validateVertex((int) idVertexIni);
+		validateVertex((int) idVertexFin);
+		E++;
+		System.out.println(idVertexIni);
 
+		System.out.println(adj[(int) idVertexIni].size());
+		System.out.println(adj[(int) idVertexFin].size());
+
+		if(adj[(int) idVertexIni].size() != 0 && adj[(int) idVertexFin].size() != 0)
+		{
+			Vertice nuevo1 = (Vertice) adj[(int) idVertexFin].iterator().next();
+			Vertice nuevo2 = (Vertice) adj[(int) idVertexIni].iterator().next();
+
+
+			adj[(int) idVertexIni].add((V) new Vertice((int)idVertexFin, nuevo1.darLongitud(), nuevo1.darLongitud(), nuevo1.darMID()));
+			adj[(int) idVertexFin].add((V) new Vertice((int)idVertexIni, nuevo2.darLongitud(), nuevo2.darLongitud(), nuevo2.darMID()));			System.out.println(arcos.darTamano() + "\n----------------");
+
+			arcos.agregar(new Arco((Integer)idVertexIni, (Integer)idVertexFin, cost));
+		}
 	}
 
 	@Override
@@ -144,7 +151,7 @@ public class Graph<K,V> implements IGraph<K, V>
 		// TODO Auto-generated method stub
 
 	}
-double a ; 
+	double a ; 
 	@Override
 	public double getCostArc(K idVertexIni, K idVertexFin) {
 		// TODO Auto-generated method stub
@@ -160,7 +167,12 @@ double a ;
 	@Override
 	public void addVertex(K idVertex, V infoVertex) {
 		// TODO Auto-generated method stub
-		System.out.println(idVertex);
+		adj[(int) idVertex].add(infoVertex);
+
+		if((int) idVertex > V)
+		{
+			V = (int) idVertex;
+		}
 	}
 
 	@Override
@@ -184,15 +196,15 @@ double a ;
 
 	@Override
 	public int cc() {
-		
-        int count = 0; 
-        for (int v = 0; v < V(); v++) {
-            if (!Marked[v]) {
-                dfs( v);
-                count++;
-            }
-        }
-        return count; 
+
+		int count = 0; 
+		for (int v = 0; v < V(); v++) {
+			if (!Marked[v]) {
+				dfs( v);
+				count++;
+			}
+		}
+		return count; 
 	}
 
 	@Override

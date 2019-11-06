@@ -59,7 +59,7 @@ public class MVCModelo{
 
 			for (int i = 1; i < datos.length; i++)
 			{
-				grafo.addEdge(Integer.parseInt(datos[0]), Integer.parseInt(datos[i]));
+				grafo.addEdge(Integer.parseInt(datos[0]), Integer.parseInt(datos[i]), 0);
 			}
 
 			linea = br.readLine();

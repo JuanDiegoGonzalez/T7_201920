@@ -50,6 +50,7 @@ public class Bag<Item> implements Iterable<Item> {
      * @param  item the item to add to this bag
      */
     public void add(Item item) {
+    	
         Node<Item> oldfirst = first;
         first = new Node<Item>();
         first.item = item;
