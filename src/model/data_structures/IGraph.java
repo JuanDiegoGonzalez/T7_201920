@@ -58,7 +58,7 @@ public interface IGraph<K,V>
 	 *origen. Los vértices resultado de la búsqueda quedan marcados y deben
 	 *tener información que pertenecen a una misma componente conectada
 	 */
-	void dfs(K s);
+	void dfs(int s);
 	
 	/**
 	 * Obtiene la cantidad de componentes conectados del grafo. Cada vértice
