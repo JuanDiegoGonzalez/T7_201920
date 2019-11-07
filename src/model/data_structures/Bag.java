@@ -3,6 +3,8 @@ package model.data_structures;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import model.logic.Vertice;
+
 /** 
  * Implementación tomada de Algorithms 4th edition by Robert Sedgewick and Kevin Wayne (2011)
  * Consultado el 04/11/19
@@ -73,6 +75,24 @@ public class Bag<Item> implements Iterable<Item> {
     
     public void cambiarPrimero(Item item) {
         first.item = item;
+    }
+    
+    public void cambiarItem(Vertice item) {
+        if(first == null)
+        {
+        	System.out.println("Lista vacia");
+        }
+        else
+        {
+        	Node<Item> current = first;
+        	Vertice actual = (Vertice) current.item;
+        	while(actual.compareTo(item) != 0)
+        	{
+        		current = current.next;
+        		actual= (Vertice) current.item;
+        	}
+        	current.item = (Item) item;
+        }
     }
 
     /**

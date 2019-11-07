@@ -1,6 +1,6 @@
 package model.logic;
 
-public class Vertice
+public class Vertice implements Comparable<Vertice>
 {
 	private int id;
 
@@ -14,6 +14,18 @@ public class Vertice
 		longitud = pLongitud;
 		latitud = pLatitud;
 		MOVEMENT_ID = pMOVEMENT_ID;
+	}
+	
+	public int compareTo(Vertice param) {
+		if(id > param.id)
+		{
+			return 1;
+		}
+		else if(id < param.id)
+		{
+			return -1;
+		}
+		return 0;
 	}
 	
 	public int darId()

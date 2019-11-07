@@ -13,24 +13,24 @@ public class Arco implements Comparable<Arco>
 		origen = porigen;
 		destino = pdestino;
 		costo = pcosto;
-		
+
 	}
-	
+
 	public int darOrigen()
 	{
 		return origen;
 	}
-	
+
 	public int darDest()
 	{
 		return destino;
 	}
-	
+
 	public double darCosto()
 	{
 		return costo;
 	}
-	
+
 	public void cambiarcosto(double param)
 	{
 		costo = param;
@@ -38,14 +38,15 @@ public class Arco implements Comparable<Arco>
 
 	@Override
 	public int compareTo(Arco param) {
-		if(costo > param.costo)
+		if(origen == param.origen && destino == param.destino)
+		{
+			return 0;
+		}
+		else if(origen > param.origen && destino > param.destino)
 		{
 			return 1;
 		}
-		else if(costo < param.costo)
-		{
+		else 
 			return -1;
-		}
-		return 0;
 	}
 }

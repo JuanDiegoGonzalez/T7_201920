@@ -10,6 +10,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import model.data_structures.Graph;
+import model.data_structures.Haversine;
 
 /**
  * Definicion del modelo del mundo
