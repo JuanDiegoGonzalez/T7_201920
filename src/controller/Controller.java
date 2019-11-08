@@ -71,12 +71,13 @@ public class Controller {
 
 				try
 				{
-					//modelo.x();
+					modelo.escribirJSON();
 					System.out.println("El grafo se guardó en formato JSON\n---------");
 				}
 				catch (Exception e)
 				{
 					System.out.println("No se pudo persistir el grafo.\n---------");
+					e.printStackTrace();
 				}
 
 			case 3:

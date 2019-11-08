@@ -33,7 +33,6 @@ public class Graph<K,V> implements IGraph<K, V>
 	public Graph(int V) {
 		if (V < 0) throw new IllegalArgumentException("Number of vertices must be nonnegative");
 		arcos = new ArregloDinamico<>(1);
-		size = 0;
 		this.size = V;
 		this.E = 0;
 		adj = new Bag[V];
@@ -57,6 +56,10 @@ public class Graph<K,V> implements IGraph<K, V>
 	 */
 	public int E() {
 		return E;
+	}
+
+	public int size() {
+		return size;
 	}
 
 	// throw an IllegalArgumentException unless {@code 0 <= v < V}
@@ -100,10 +103,10 @@ public class Graph<K,V> implements IGraph<K, V>
 		if(adj[(int) idVertexIni].size() != 0 && adj[(int) idVertexFin].size() != 0)
 		{
 			Vertice ini = (Vertice) adj[(int) idVertexIni].iterator().next();
-			Vertice fin = (Vertice) adj[(int) idVertexIni].iterator().next();
+			Vertice fin = (Vertice) adj[(int) idVertexFin].iterator().next();
 
 			double costo = harve.distance(ini.darLatitud(), ini.darLongitud(), fin.darLatitud(), fin.darLongitud());
-			
+
 			Vertice nuevo1 = (Vertice) adj[(int) idVertexFin].iterator().next();
 			Vertice nuevo2 = (Vertice) adj[(int) idVertexIni].iterator().next();
 			adj[(int) idVertexIni].add((V) new Vertice((int)idVertexFin, nuevo1.darLongitud(), nuevo1.darLongitud(), nuevo1.darMID()));
@@ -115,7 +118,10 @@ public class Graph<K,V> implements IGraph<K, V>
 
 	public V getInfoVertex(K idVertex)
 	{
-		return (V) adj[(int) idVertex].iterator().next();
+		if(adj[(int) idVertex].size() != 0)
+			return (V) adj[(int) idVertex].iterator().next();
+		else
+			return null;
 	}
 
 	public void setInfoVertex(K idVertex, V infoVertex)

@@ -3,6 +3,7 @@ package model.logic;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import org.json.simple.JSONArray;
@@ -39,14 +40,14 @@ public class MVCModelo{
 		while(linea != null)
 		{
 			String[] datos = linea.split(";");
-			
+
 			if(!datos.equals(""))
 			{
 				Vertice nuevo = new Vertice(Integer.parseInt(datos[0]), Double.parseDouble(datos[1]), Double.parseDouble(datos[2]), Integer.parseInt(datos[3]));
 
 				grafo.addVertex(Integer.parseInt(datos[0]), nuevo);
 			}
-			
+
 			linea = br.readLine();
 		}
 		br.close();
@@ -68,9 +69,9 @@ public class MVCModelo{
 		br.close();
 	}
 
-	//
+	//----------------------------
 	//METODOS
-	//
+	//----------------------------
 
 	public int darNumeroVertices()
 	{
@@ -80,5 +81,64 @@ public class MVCModelo{
 	public int darNumeroArcos()
 	{
 		return grafo.E();
+	}
+
+	public void escribirJSON()
+	{
+		JSONArray listaVertices = new JSONArray();
+
+		for (int i = 0; i < grafo.size(); i++)
+		{
+			Vertice actual = grafo.getInfoVertex(i);
+
+			if(actual != null)
+			{
+				JSONObject datosVertice = new JSONObject();
+				datosVertice.put("id", actual.darId());
+				datosVertice.put("longitud", actual.darLongitud());
+				datosVertice.put("latitud", actual.darLatitud());
+				datosVertice.put("MOVEMENT_ID", actual.darMID());
+
+				JSONObject vertice = new JSONObject(); 
+				vertice.put("vertice", datosVertice);
+
+				listaVertices.add(vertice);
+				System.out.println(actual.darId());
+			}
+		}
+
+		try (FileWriter file1 = new FileWriter(new File("data/vertices.json"))) {
+
+			file1.write(listaVertices.toJSONString());
+			file1.flush();
+
+		} catch (IOException e)
+		{e.printStackTrace();}
+
+		JSONArray listaArcos = new JSONArray();
+		
+		for (int i = 0; i < grafo.arcos.darTamano(); i++)
+		{
+			Arco actual = grafo.arcos.darElemento(i);
+
+			JSONObject datosArco = new JSONObject();
+			datosArco.put("origen", actual.darOrigen());
+			datosArco.put("destino", actual.darDest());
+			datosArco.put("costo", actual.darCosto());
+
+			JSONObject arco = new JSONObject(); 
+			arco.put("arco", datosArco);
+
+			listaArcos.add(arco);
+			System.out.println(i);
+		}
+
+		try (FileWriter file2 = new FileWriter(new File("data/arcos.json"))) {
+
+			file2.write(listaArcos.toJSONString());
+			file2.flush();
+
+		} catch (IOException e)
+		{e.printStackTrace();}		
 	}
 }

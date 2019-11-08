@@ -13,7 +13,6 @@ public class Arco implements Comparable<Arco>
 		origen = porigen;
 		destino = pdestino;
 		costo = pcosto;
-
 	}
 
 	public int darOrigen()
