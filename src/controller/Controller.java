@@ -82,10 +82,19 @@ public class Controller {
 
 			case 3:
 
-				//ZonaUBER zona = modelo.consultarZonaPorID(MID);
-
-				//	System.out.println("Nombre: " + zona.darScanombre() + "\nPerímetro: " + (zona.darShape_leng()*100) + " kilómetros\nÁrea: " + (zona.darShape_area()*10000) + " kilómetros cuadrados\nNúmero de puntos: " + zona.darCoordinates().darNumeroElementos() + "\n---------");
-
+				try
+				{
+					modelo.leerJSON();
+					System.out.println("Grafo cargado");
+					System.out.println("Cantidad de vertices cargados: " + modelo.darNumeroVertices());
+					System.out.println("Cantidad de arcos cargados: " + modelo.darNumeroArcos() + "\n---------");
+				}
+				catch(Exception e)
+				{					
+					System.out.println("Se produjo un error al cargar el grafo.");
+					e.printStackTrace();
+				}
+				
 				break;
 
 			case 4:

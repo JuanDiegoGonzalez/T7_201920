@@ -5,13 +5,16 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Iterator;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import model.data_structures.ArregloDinamico;
 import model.data_structures.Graph;
 import model.data_structures.Haversine;
+import model.data_structures.Stack;
 
 /**
  * Definicion del modelo del mundo
@@ -141,4 +144,56 @@ public class MVCModelo{
 		} catch (IOException e)
 		{e.printStackTrace();}		
 	}
+	
+	public void leerJSON()
+	{
+		grafo = new Graph<>(250000);
+
+		JSONParser jsonParser = new JSONParser();
+
+		try (FileReader reader = new FileReader("data/vertices.json"))
+		{
+			Object obj = jsonParser.parse(reader);
+
+			JSONArray array = (JSONArray) obj;
+
+			for(int i = 0; i < array.size(); i++)
+			{
+				JSONObject actual = (JSONObject) array.get(i);
+				JSONObject verticeActual = (JSONObject) actual.get("vertice");
+				
+				Vertice nuevo = new Vertice(((Long)verticeActual.get("id")).intValue(), (double)verticeActual.get("longitud"), (double)verticeActual.get("latitud"), ((Long)verticeActual.get("MOVEMENT_ID")).intValue());
+				
+				grafo.addVertex(((Long)verticeActual.get("id")).intValue(), nuevo);
+			}
+		}
+		catch (Exception e)
+		{e.printStackTrace();}
+		
+		ArregloDinamico<Arco> arcosCargados = new ArregloDinamico<>(1);
+		
+		jsonParser = new JSONParser();
+
+		try (FileReader reader = new FileReader("data/arcos.json"))
+		{
+			Object obj = jsonParser.parse(reader);
+
+			JSONArray array = (JSONArray) obj;
+
+			for(int i = 0; i < array.size(); i++)
+			{
+				JSONObject actual = (JSONObject) array.get(i);
+				JSONObject arcoActual = (JSONObject) actual.get("arco");
+				
+				Arco nuevo = new Arco(((Long)arcoActual.get("origen")).intValue(), ((Long)arcoActual.get("destino")).intValue(), (double)arcoActual.get("costo"));
+				
+				grafo.addEdge(((Long)arcoActual.get("origen")).intValue(), ((Long)arcoActual.get("destino")).intValue(), (double)arcoActual.get("costo"));
+				arcosCargados.agregar(nuevo);
+			}
+		}
+		catch (Exception e)
+		{e.printStackTrace();}		
+				
+		grafo.arcos = arcosCargados;
+	}	
 }
