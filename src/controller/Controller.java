@@ -107,10 +107,16 @@ public class Controller {
 
 			case 5:
 
-				//ZonaUBER zona = modelo.consultarZonaPorID(MID);
-
-				//	System.out.println("Nombre: " + zona.darScanombre() + "\nPerímetro: " + (zona.darShape_leng()*100) + " kilómetros\nÁrea: " + (zona.darShape_area()*10000) + " kilómetros cuadrados\nNúmero de puntos: " + zona.darCoordinates().darNumeroElementos() + "\n---------");
-
+				try
+				{
+					modelo.crearMapa();
+					System.out.println("Se creo el mapa correctamente, favor cambiar el tipo de  archivo  a .html para visualizarlo");
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+					System.out.println("Hubo un error creando el mapa");
+				}
 				break;
 
 			case 6: 

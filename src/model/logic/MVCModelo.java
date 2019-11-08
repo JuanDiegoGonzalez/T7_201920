@@ -1,10 +1,13 @@
 package model.logic;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Iterator;
 
 import org.json.simple.JSONArray;
@@ -119,7 +122,7 @@ public class MVCModelo{
 		{e.printStackTrace();}
 
 		JSONArray listaArcos = new JSONArray();
-		
+
 		for (int i = 0; i < grafo.arcos.darTamano(); i++)
 		{
 			Arco actual = grafo.arcos.darElemento(i);
@@ -144,7 +147,7 @@ public class MVCModelo{
 		} catch (IOException e)
 		{e.printStackTrace();}		
 	}
-	
+
 	public void leerJSON()
 	{
 		grafo = new Graph<>(250000);
@@ -161,17 +164,17 @@ public class MVCModelo{
 			{
 				JSONObject actual = (JSONObject) array.get(i);
 				JSONObject verticeActual = (JSONObject) actual.get("vertice");
-				
+
 				Vertice nuevo = new Vertice(((Long)verticeActual.get("id")).intValue(), (double)verticeActual.get("longitud"), (double)verticeActual.get("latitud"), ((Long)verticeActual.get("MOVEMENT_ID")).intValue());
-				
+
 				grafo.addVertex(((Long)verticeActual.get("id")).intValue(), nuevo);
 			}
 		}
 		catch (Exception e)
 		{e.printStackTrace();}
-		
+
 		ArregloDinamico<Arco> arcosCargados = new ArregloDinamico<>(1);
-		
+
 		jsonParser = new JSONParser();
 
 		try (FileReader reader = new FileReader("data/arcos.json"))
@@ -184,16 +187,76 @@ public class MVCModelo{
 			{
 				JSONObject actual = (JSONObject) array.get(i);
 				JSONObject arcoActual = (JSONObject) actual.get("arco");
-				
+
 				Arco nuevo = new Arco(((Long)arcoActual.get("origen")).intValue(), ((Long)arcoActual.get("destino")).intValue(), (double)arcoActual.get("costo"));
-				
+
 				grafo.addEdge(((Long)arcoActual.get("origen")).intValue(), ((Long)arcoActual.get("destino")).intValue(), (double)arcoActual.get("costo"));
 				arcosCargados.agregar(nuevo);
 			}
 		}
 		catch (Exception e)
 		{e.printStackTrace();}		
-				
+
 		grafo.arcos = arcosCargados;
-	}	
+	}
+
+	/**
+	 * line = [{lat: 0, lng: 16},{lat: 2, lng: 16}];
+      path = new google.maps.Polyline({path: line, strokeColor: '#FF0000', strokeWeight: 2});
+      path.setMap(map);
+	 * @throws Exception 
+	 */	
+
+	public void crearMapa() throws Exception 
+	{
+		FileReader reader = new FileReader(new File("data/index.txt"));
+		BufferedReader bf = new BufferedReader(reader);
+
+		BufferedWriter pf = new BufferedWriter(new PrintWriter(new File("data/mapa.txt")));
+
+		boolean llego = false;
+		while(llego == false)
+		{
+			String lineaActual = bf.readLine();
+			pf.write(lineaActual + "\n");
+
+			if(lineaActual.equals("//kiwi"))
+			{
+				llego = true;
+
+			}
+		}		
+
+		for (int i = 0; i < grafo.arcos.darTamano(); i++)
+		{
+			Arco actual = grafo.arcos.darElemento(i);
+
+
+
+			Vertice vertice1 = grafo.getInfoVertex(actual.darOrigen());
+			Vertice vertice2 = grafo.getInfoVertex(actual.darDest());
+
+			if(vertice1.darLatitud() < 4.621360 && vertice1.darLatitud() > 4.597714 && vertice1.darLongitud() < -74.062707 && vertice1.darLongitud() > -74.094723 && vertice2.darLatitud() < 4.621360 && vertice2.darLatitud() > 4.597714 && vertice2.darLongitud() < -74.062707 && vertice2.darLongitud() > -74.094723)
+			{
+				pf.write("line = [{lat: " + vertice1.darLatitud() + ", lng: " + vertice1.darLongitud() + "},{lat: " + vertice2.darLatitud() + ", lng: " + vertice2.darLongitud() + "}];\n");
+				pf.write("path = new google.maps.Polyline({path: line, strokeColor: '#FF0000', strokeWeight: 2});\n");
+				pf.write("path.setMap(map);\n");
+			}
+		}
+
+		boolean acabo = false;
+		while(acabo == false)
+		{
+			String lineaActual = bf.readLine();
+			pf.write(lineaActual + "\n");
+
+			if(lineaActual.equals("//acabe"))
+			{
+				acabo = true;
+			}
+		}
+
+		bf.close();
+		pf.close();
+	}
 }
