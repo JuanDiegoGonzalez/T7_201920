@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import model.data_structures.Bag;
 import model.data_structures.Graph;
 import model.data_structures.Stack;
 import model.logic.Vertice;
@@ -91,9 +92,9 @@ public class TestGraph
 		setUp1();
 
 		assertNotNull(grafo.adj(1));
-		Stack  x = new  Stack<>();
-		x = (Stack) grafo.adj(1);
-		assertEquals(x.size(), 4);		
+		Bag x = (Bag) grafo.adj(1);
+		
+		assertEquals(3, x.size());		
 	}
 	
 	@Test
@@ -116,6 +117,6 @@ public class TestGraph
 	{	
 		setUp1();
 
-		assertEquals(grafo.cc(), 4);
+		assertEquals(1, grafo.cc());
 	}
 }

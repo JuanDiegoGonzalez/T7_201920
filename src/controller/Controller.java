@@ -101,7 +101,7 @@ public class Controller {
 
 			case 4:
 
-				System.out.println("Cantidad de componentes conectados: " + modelo.cantidadCC() + "\n---------");
+				System.out.println("---------\nCantidad de componentes conectados: " + modelo.cantidadCC() + "\n---------");
 				
 				break;
 
