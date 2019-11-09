@@ -136,7 +136,6 @@ public class MVCModelo{
 			arco.put("arco", datosArco);
 
 			listaArcos.add(arco);
-			System.out.println(i);
 		}
 
 		try (FileWriter file2 = new FileWriter(new File("data/arcos.json"))) {
@@ -223,15 +222,12 @@ public class MVCModelo{
 			if(lineaActual.equals("//kiwi"))
 			{
 				llego = true;
-
 			}
 		}		
 
 		for (int i = 0; i < grafo.arcos.darTamano(); i++)
 		{
 			Arco actual = grafo.arcos.darElemento(i);
-
-
 
 			Vertice vertice1 = grafo.getInfoVertex(actual.darOrigen());
 			Vertice vertice2 = grafo.getInfoVertex(actual.darDest());
@@ -241,6 +237,7 @@ public class MVCModelo{
 				pf.write("line = [{lat: " + vertice1.darLatitud() + ", lng: " + vertice1.darLongitud() + "},{lat: " + vertice2.darLatitud() + ", lng: " + vertice2.darLongitud() + "}];\n");
 				pf.write("path = new google.maps.Polyline({path: line, strokeColor: '#FF0000', strokeWeight: 2});\n");
 				pf.write("path.setMap(map);\n");
+				System.out.println(vertice1.darMID());
 			}
 		}
 

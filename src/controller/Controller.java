@@ -110,7 +110,7 @@ public class Controller {
 				try
 				{
 					modelo.crearMapa();
-					System.out.println("Se creo el mapa correctamente, favor cambiar el tipo de  archivo  a .html para visualizarlo");
+					System.out.println("Se creo el mapa correctamente en la carpeta /data. Cambiar el tipo de archivo a .html para visualizarlo");
 				}
 				catch (Exception e)
 				{
