@@ -109,7 +109,6 @@ public class MVCModelo{
 				vertice.put("vertice", datosVertice);
 
 				listaVertices.add(vertice);
-				System.out.println(actual.darId());
 			}
 		}
 
@@ -199,12 +198,10 @@ public class MVCModelo{
 		grafo.arcos = arcosCargados;
 	}
 
-	/**
-	 * line = [{lat: 0, lng: 16},{lat: 2, lng: 16}];
-      path = new google.maps.Polyline({path: line, strokeColor: '#FF0000', strokeWeight: 2});
-      path.setMap(map);
-	 * @throws Exception 
-	 */	
+	public int cantidadCC()
+	{
+		return grafo.cc();
+	}
 
 	public void crearMapa() throws Exception 
 	{
@@ -237,7 +234,6 @@ public class MVCModelo{
 				pf.write("line = [{lat: " + vertice1.darLatitud() + ", lng: " + vertice1.darLongitud() + "},{lat: " + vertice2.darLatitud() + ", lng: " + vertice2.darLongitud() + "}];\n");
 				pf.write("path = new google.maps.Polyline({path: line, strokeColor: '#FF0000', strokeWeight: 2});\n");
 				pf.write("path.setMap(map);\n");
-				System.out.println(vertice1.darMID());
 			}
 		}
 
